@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function getDataFromServer() {
+		var info = document.getElementById("info");
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 1) {
+				info.innerHTML = "<img src='wait.gif' height='100' width='100'>";
+			}
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				info.innerHTML = xmlhttp.responseText;
+			}
+		}
+
+		xmlhttp.open("GET", "MyServlet", true);
+		xmlhttp.send();
+
+	}
+
+	function checkFruitAvailability() {
+		var fruitname = document.getElementById("fruitname");
+		var notif = document.getElementById("notif");
+		
+		var x = new XMLHttpRequest();
+
+		x.onreadystatechange = function() {
+			if (x.readyState == 1) {
+				notif.innerHTML = "Please wait... .  .    ";
+			}
+			if (x.readyState == 4 && x.status == 200) {
+				notif.innerHTML = x.responseText;
+			}
+
+		}
+		
+		x.open("GET", "SecondServlet?fruitname="+fruitname.value, true);
+		x.send();
+
+	}
+</script>
+</head>
+<body>
+
+	<center>
+		<h1>AJAX Study</h1>
+
+		<p id="info">This is simple text</p>
+
+		<button onclick="getDataFromServer()">Click Me</button>
+
+		<br> <br> <br>
+
+		<hr>
+
+
+		<input type="text" name="fruitname" id="fruitname" onkeyup="checkFruitAvailability()">
+		<p id="notif"></p>
+
+
+
+	</center>
+</body>
+</html>
